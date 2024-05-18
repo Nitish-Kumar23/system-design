@@ -1,26 +1,44 @@
-//package com.masterclass.configuration;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-//import org.springframework.security.web.SecurityFilterChain;
-//
-//@EnableWebSecurity
-//public class SwaggerConfig {
-//
+package com.masterclass.configuration;
+
+import io.swagger.v3.oas.models.ExternalDocumentation;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class SwaggerConfig {
+
 //    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(auth -> auth.requestMatchers("/v3/api-docs/**",
-//                                "/swagger-ui/**", "/swagger-ui.html")
-//                        .permitAll()
-//                        .anyRequest()
-//                        .authenticated())
-//                .formLogin(formLogin -> formLogin.defaultSuccessUrl("/foos"));
-//        return http.build();
+//    public GroupedOpenApi publicApi() {
+//        return GroupedOpenApi.builder()
+//                .group("springshop-public")
+//                .pathsToMatch("v1/checkin/book-seat/**")
+//                .build();
 //    }
-//
-//}
+
+//    @Bean
+//    public GroupedOpenApi adminApi() {
+//        return GroupedOpenApi.builder()
+//                .group("springshop-admin")
+//                .pathsToMatch("/admin/**")
+//                .packagesToScan("*")
+//                .build();
+//    }
+
+    @Bean
+    public OpenAPI springShopOpenAPI() {
+        return new OpenAPI()
+                .info(new Info().title("System design masterclass API")
+                        .description("System design masterclass application")
+                        .version("v0.1")
+                        .license(new License().name("nitishkumar").url("http://springdoc.org")))
+                        .externalDocs(new ExternalDocumentation()
+                        .description("API Documentation")
+                        .url("https://springshop.wiki.github.org/docs"));
+    }
+
+
+
+}
