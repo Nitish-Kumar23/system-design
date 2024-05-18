@@ -12,8 +12,8 @@ import com.masterclass.request.FlightBookingRequest;
 import com.masterclass.response.FlightBookingResponse;
 import com.masterclass.service.BookingHelperService;
 import com.masterclass.service.CheckInService;
-import jakarta.persistence.LockModeType;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +21,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 @Service
 public class CheckInServiceImpl implements CheckInService {
@@ -60,7 +56,13 @@ public class CheckInServiceImpl implements CheckInService {
         booking.setUserId(request.getUserId());
         booking.setSeatId(seat.getId());
 
-        bookingRepo.saveAndFlush(booking);
+        try {
+            bookingRepo.saveAndFlush(booking);
+        }catch (Exception exception){
+            logger.error("booking couldn't be done {}",ExceptionUtils.getStackTrace(exception));
+            throw new ApplicationException(108,"not done");
+        }
+
         logger.info("bookFlightTicket : success for request {}", request);
         return new FlightBookingResponse(booking.getFlightTripId(), request.getSeatLabel());
     }
@@ -91,10 +93,8 @@ public class CheckInServiceImpl implements CheckInService {
         List<User> userList = users.getContent();
 
         for (User user : userList){
-            CompletableFuture.runAsync(()->bookingHelperService.book(user));
-//            book(user);
+            CompletableFuture.runAsync(()->bookingHelperService.bookV1(user));
         }
-
     }
 
 }

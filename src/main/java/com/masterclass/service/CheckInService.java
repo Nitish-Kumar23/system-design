@@ -9,12 +9,16 @@ public interface CheckInService {
 
     /**
      *
-     * Book flight tickets sequentially
+     * Book flight tickets
      *
      * @param request
      * @return
      */
     FlightBookingResponse bookFlightTicket(FlightBookingRequest request) throws ExecutionException, InterruptedException;
 
+    /**
+     * Book flight ticket for all seats, select seats randomly
+     */
     void bookFlightTicketRandom();
+
 }

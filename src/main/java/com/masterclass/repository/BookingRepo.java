@@ -13,6 +13,7 @@ import java.util.List;
 public interface BookingRepo extends JpaRepository<Booking,Integer> {
     Booking findBySeatIdAndUserIdAndFlightTripId(Integer seatId, Integer userId, Integer tripId);
 
+    @Lock(LockModeType.PESSIMISTIC_READ)
     List<Booking> findBySeatIdAndFlightTripId(Integer seatId, Integer tripId);
 
     // exclusive lock - read & write no other Tx can read or write.
