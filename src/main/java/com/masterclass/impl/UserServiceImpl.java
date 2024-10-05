@@ -1,6 +1,5 @@
 package com.masterclass.impl;
 
-import com.masterclass.entity.Airline;
 import com.masterclass.entity.User;
 import com.masterclass.exceptionHandler.ApplicationException;
 import com.masterclass.repository.UserRepo;
@@ -34,9 +33,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(Integer userId) {
         Optional<User> user = userRepo.findById(userId);
-        if(user.isPresent()){
+        if (user.isPresent()) {
             return user.get();
         }
-        throw new ApplicationException(510,"user not found exception");
+        throw new ApplicationException(510, "user not found exception");
     }
 }

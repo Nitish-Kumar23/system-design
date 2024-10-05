@@ -45,6 +45,10 @@ public class CheckInServiceImpl implements CheckInService {
     @Autowired
     private BookingHelperService bookingHelperService;
 
+    public CheckInServiceImpl() {
+        logger.info("CheckInServiceImpl initialized {}", this.hashCode());
+    }
+
     @Override
     public FlightBookingResponse bookFlightTicket(FlightBookingRequest request) throws ExecutionException, InterruptedException {
         logger.info("bookFlightTicket : for request {} and thread id {}", request, Thread.currentThread().getName());
@@ -58,9 +62,9 @@ public class CheckInServiceImpl implements CheckInService {
 
         try {
             bookingRepo.saveAndFlush(booking);
-        }catch (Exception exception){
-            logger.error("booking couldn't be done {}",ExceptionUtils.getStackTrace(exception));
-            throw new ApplicationException(108,"not done");
+        } catch (Exception exception) {
+            logger.error("booking couldn't be done {}", ExceptionUtils.getStackTrace(exception));
+            throw new ApplicationException(108, "not done");
         }
 
         logger.info("bookFlightTicket : success for request {}", request);
@@ -88,32 +92,35 @@ public class CheckInServiceImpl implements CheckInService {
 
     @Override
     public void bookFlightTicketRandom() {
-        Pageable page = PageRequest.of(0,120, Sort.by(Sort.Direction.ASC,"id"));
+        Pageable page = PageRequest.of(0, 120, Sort.by(Sort.Direction.ASC, "id"));
         Page<User> users = userRepo.filterDataByPageable(page);
         List<User> userList = users.getContent();
 
-        for (User user : userList){
-            CompletableFuture.runAsync(()->bookingHelperService.bookV1(user));
+        for (User user : userList) {
+            CompletableFuture.runAsync(() -> bookingHelperService.bookV1(user));
         }
     }
 
 }
 
 /**
- *
- *     READ, - read lock
- *     WRITE, -
- *     OPTIMISTIC, - read lock, version exception
- *     OPTIMISTIC_FORCE_INCREMENT, - read lock with forced version upgrade even on read
- *     PESSIMISTIC_READ, - shared lock, two writes cannot be aquired, T will be blocked until other T releases lock
- *     PESSIMISTIC_WRITE, - only one T can perform read or writes, highest level of isolation
- *     PESSIMISTIC_FORCE_INCREMENT,
- *     NONE;
- *
- *      Serial requests - sequential request - having time delay
- *      PARALLEL REQUESTS - at same time
- *          IF OUR DATABASE IS SERIAL OR SUPPORTS serialization - then in this case should have same behaviour as if requests have come serially
- *
+ * READ, - read lock
+ * WRITE, -
+ * OPTIMISTIC, - read lock, version exception
+ * OPTIMISTIC_FORCE_INCREMENT, - read lock with forced version upgrade even on read
+ * PESSIMISTIC_READ, - shared lock, two writes cannot be aquired, T will be blocked until other T releases lock
+ * PESSIMISTIC_WRITE, - only one T can perform read or writes, highest level of isolation
+ * PESSIMISTIC_FORCE_INCREMENT,
+ * NONE;
+ * <p>
+ * Serial requests - sequential request - having time delay
+ * PARALLEL REQUESTS - at same time
+ * IF OUR DATABASE IS SERIAL OR SUPPORTS serialization - then in this case should have same behaviour as if requests have come serially
+ * <p>
+ * <p>
+ * do no use optimistic locking when there is lot of parallelism
+ * only few will success and others will fail
+ * for booking we need for write lock so that different Tx doesn't update the row
  */
 /**
  *  do no use optimistic locking when there is lot of parallelism

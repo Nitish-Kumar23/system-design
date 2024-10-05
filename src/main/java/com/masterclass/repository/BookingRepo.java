@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface BookingRepo extends JpaRepository<Booking,Integer> {
+public interface BookingRepo extends JpaRepository<Booking, Integer> {
     Booking findBySeatIdAndUserIdAndFlightTripId(Integer seatId, Integer userId, Integer tripId);
 
     @Lock(LockModeType.PESSIMISTIC_READ)

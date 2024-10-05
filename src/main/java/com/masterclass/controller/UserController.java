@@ -23,27 +23,28 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addUser(@RequestParam(required = true) String firstName,@RequestParam String lastName){
-        userService.addUser(firstName,lastName);
+    public ResponseEntity<Void> addUser(@RequestParam(required = true) String firstName, @RequestParam String lastName) {
+        userService.addUser(firstName, lastName);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUsers(){
-        return new ResponseEntity<>(userService.getAllUsers(),HttpStatus.OK);
+    public ResponseEntity<List<User>> getAllUsers() {
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @Operation(summary = "Get a user by its id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the user",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = User.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid id supplied",
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "User not found",
-                    content = @Content) })    @GetMapping("/id/{id}")
+                    content = @Content)})
+    @GetMapping("/id/{id}")
     public ResponseEntity<User> getUserById(@Parameter(description = "id of the user to search") @PathVariable(name = "id") Integer id) {
-        return new ResponseEntity<>(userService.getUserById(id),HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 
 }

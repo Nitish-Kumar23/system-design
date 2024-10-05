@@ -16,7 +16,7 @@ public class SeatsController {
     private SeatService seatService;
 
     @PostMapping("/bulk-add")
-    public ResponseEntity<Void> addBulkSeats(){
+    public ResponseEntity<Void> addBulkSeats() {
         seatService.addBulkSeats();
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -2,9 +2,9 @@ package com.masterclass.exceptionHandler;
 
 import lombok.Getter;
 
+@Getter
 public class ApplicationException extends RuntimeException {
 
-    @Getter
     private Integer errorCode;
 
     private String message;

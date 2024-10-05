@@ -11,14 +11,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SeatRepo extends JpaRepository<Seat,Integer> {
+public interface SeatRepo extends JpaRepository<Seat, Integer> {
     Seat findByLabel(String seatLabel);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select id from Seat s where s.id not in :activeSeats")
     Integer findBySeatIdNotIn(List<Integer> activeSeats, PageRequest pageRequest);
 
-    @Query(value = "select s.id from seat s where s.id not in (select b.seat_id from booking b) order by s.id asc limit 1 for update",nativeQuery = true)
+    @Query(value = "select s.id from seat s where s.id not in (select b.seat_id from booking b) order by s.id asc limit 1 for update", nativeQuery = true)
     List<Integer> findAvailableSeats();
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)

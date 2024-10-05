@@ -8,7 +8,6 @@ import java.util.concurrent.ExecutionException;
 public interface CheckInService {
 
     /**
-     *
      * Book flight tickets
      *
      * @param request

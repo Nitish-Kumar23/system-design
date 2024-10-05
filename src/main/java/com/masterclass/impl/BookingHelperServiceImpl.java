@@ -1,7 +1,6 @@
 package com.masterclass.impl;
 
 import com.masterclass.entity.Booking;
-import com.masterclass.entity.SeatBackup;
 import com.masterclass.entity.User;
 import com.masterclass.exceptionHandler.ApplicationException;
 import com.masterclass.repository.BookingRepo;
@@ -52,7 +51,7 @@ public class BookingHelperServiceImpl implements BookingHelperService {
                 logger.info("no seat found");
                 return;
             }
-            logger.info("seat found for user {} and id {} : thread id {}", user, availableSeatId,Thread.currentThread().getId());
+            logger.info("seat found for user {} and id {} : thread id {}", user, availableSeatId, Thread.currentThread().getId());
             Booking booking = new Booking();
             booking.setFlightTripId(1);
             booking.setUserId(user.getId());
@@ -60,9 +59,9 @@ public class BookingHelperServiceImpl implements BookingHelperService {
 
             bookingRepo.saveAndFlush(booking);
             logger.info("bookFlightTicket : success for booking {}", booking);
-        }catch (Exception exception){
-            logger.error("Exception occurred while trying to book seat for user {} & thread id {} : exception {}",user, Thread.currentThread().getId(),ExceptionUtils.getStackTrace(exception));
-            throw new ApplicationException(107,"database exception");
+        } catch (Exception exception) {
+            logger.error("Exception occurred while trying to book seat for user {} & thread id {} : exception {}", user, Thread.currentThread().getId(), ExceptionUtils.getStackTrace(exception));
+            throw new ApplicationException(107, "database exception");
         }
 
     }
@@ -79,7 +78,7 @@ public class BookingHelperServiceImpl implements BookingHelperService {
 //            }
             Integer availableSeatId = seatRepo.findAvailableSeat();
 
-            if(availableSeatId==null){
+            if (availableSeatId == null) {
                 logger.info("no seat found");
                 return;
             }
@@ -92,9 +91,9 @@ public class BookingHelperServiceImpl implements BookingHelperService {
 
             bookingRepo.saveAndFlush(booking);
             logger.info("bookFlightTicket : success for booking {}", booking);
-        }catch (Exception exception){
-            logger.error("Exception occurred while trying to book seat for user {} & thread id {} : exception {}",user, Thread.currentThread().getId(),ExceptionUtils.getStackTrace(exception));
-            throw new ApplicationException(107,"database exception");
+        } catch (Exception exception) {
+            logger.error("Exception occurred while trying to book seat for user {} & thread id {} : exception {}", user, Thread.currentThread().getId(), ExceptionUtils.getStackTrace(exception));
+            throw new ApplicationException(107, "database exception");
         }
 
     }

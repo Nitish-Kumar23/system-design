@@ -7,7 +7,6 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "seat_backup")
-@Data
 public class SeatBackup implements Serializable {
 
     @Id
@@ -26,6 +25,30 @@ public class SeatBackup implements Serializable {
 
     public SeatBackup(String flightId, String label) {
         this.flightId = flightId;
+        this.label = label;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getFlightId() {
+        return flightId;
+    }
+
+    public void setFlightId(String flightId) {
+        this.flightId = flightId;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
         this.label = label;
     }
 }

@@ -11,14 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthController {
 
     /**
-     *
      * Status health check
      *
      * @return
      */
     @GetMapping()
-    public ResponseEntity<String> healthCheck(){
-        return new ResponseEntity<>("STATUS : 200",HttpStatus.OK);
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.status(HttpStatus.OK).body("OK");
     }
 
 }

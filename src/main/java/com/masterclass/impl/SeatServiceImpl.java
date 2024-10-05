@@ -19,16 +19,16 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public void addBulkSeats() {
         List<Seat> allSeats = new ArrayList<>();
-        for (int i=1;i<=20;i++){
-            String[] seatInRow = new String[]{"A","B","C","D","E","F"};
-            for (String seat : seatInRow){
+        for (int i = 1; i <= 20; i++) {
+            String[] seatInRow = new String[]{"A", "B", "C", "D", "E", "F"};
+            for (String seat : seatInRow) {
                 Seat entity = new Seat();
-                entity.setLabel(StringUtils.join(seat,"-",i));
+                entity.setLabel(StringUtils.join(seat, "-", i));
                 entity.setFlightId("1");
                 allSeats.add(entity);
             }
         }
         seatRepo.saveAll(allSeats);
-        seatRepo.flush();;
+        seatRepo.flush();
     }
 }

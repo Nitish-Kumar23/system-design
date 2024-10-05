@@ -20,7 +20,7 @@ public class FlightBookingRequest implements Serializable {
     private Integer secondUserId;
 
     @Override
-    public String toString(){
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.JSON_STYLE);
     }
 

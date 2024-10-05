@@ -16,13 +16,12 @@ import java.util.concurrent.ExecutionException;
 @RestController
 @RequestMapping("v1/checkin")
 public class CheckInController {
-
     @Autowired
     private CheckInService checkInService;
 
     @PostMapping("/book-seat")
     public ResponseEntity<FlightBookingResponse> bookFlightTicket(@RequestBody FlightBookingRequest request) throws ExecutionException, InterruptedException {
-        return new ResponseEntity<>(checkInService.bookFlightTicket(request),HttpStatus.OK);
+        return new ResponseEntity<>(checkInService.bookFlightTicket(request), HttpStatus.OK);
     }
 
     @PostMapping("/book-seat/random")

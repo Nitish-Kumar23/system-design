@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SeatBackUpRepo extends JpaRepository<SeatBackup,Integer> {
+public interface SeatBackUpRepo extends JpaRepository<SeatBackup, Integer> {
 }
